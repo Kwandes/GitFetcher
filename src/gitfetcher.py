@@ -1,8 +1,8 @@
 import os
+from datetime import datetime
 from slack import RTMClient
 
 # region Event handling
-
 
 @RTMClient.run_on(event="message")
 def receiveEvent(**payload):
@@ -25,7 +25,7 @@ def respondData(data, web_client):
         channel=channel_id,
         text="Here is the data you've requested"
     )
-    print("Replied to <data>")
+    print(str(datetime.now().time()) + "> Replied to <data>")
 
 
 def respondMention(data, web_client):
@@ -37,7 +37,7 @@ def respondMention(data, web_client):
       channel=channel_id,
       text=f"Hey, thanks for mentioning me"
     )
-    print("Replied to <Hello>")
+    print(str(datetime.now().time()) + "> Replied to <Hello>")
 
 
 def respondRepeat(data, web_client):
@@ -49,12 +49,11 @@ def respondRepeat(data, web_client):
       channel=channel_id,
       text=data['text'].replace("!repeat", '')
     )
-    print("Replied to <repeat>")
+    print(str(datetime.now().time()) + "> Replied to <repeat>")
 
 # endregion
 
 # Slack Connection
-
 
 slack_token = os.environ["GITFETCHER_SLACK_BOT_TOKEN"]
 
@@ -66,7 +65,7 @@ rtm_client = RTMClient(
 print("starting listening")
 while True:
     try:
-        print("Connection Started")
+        print(str(datetime.now().time()) + "> Connection Started")
         rtm_client.start()
     except KeyError as e:
-        print("Error: " + str(e))
+        print(str(datetime.now().time()) + "> Error: " + str(e))

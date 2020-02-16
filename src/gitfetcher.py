@@ -84,6 +84,50 @@ shows a readme"""
         )
         print(str(datetime.now().time()) + "> Replied to <info>")
 
+    elif data['text'].startswith('!contributors'):
+        print(str(datetime.now().time()) + "> Received command <contributors>")
+        stripCommand(data, '!contributors')
+        channel_id = data['channel']
+        response = ""
+
+        try:
+            # get Repository info
+            response = str(api.getContributors(data))
+            # If there is an issue, response might be empty
+            if not response:
+                raise Exception
+        except:
+            traceback.print_exc()
+            response = "invalid parameters"
+
+        web_client.chat_postMessage(
+            channel=channel_id,
+            text=response
+        )
+        print(str(datetime.now().time()) + "> Replied to <Contributors>")
+
+    elif data['text'].startswith('!contributor'):
+        print(str(datetime.now().time()) + "> Received command <contributor>")
+        stripCommand(data, '!contributors')
+        channel_id = data['channel']
+        response = ""
+
+        try:
+            # get Repository info
+            response = str(api.getContributor(data))
+            # If there is an issue, response might be empty
+            if not response:
+                raise Exception
+        except:
+            traceback.print_exc()
+            response = "invalid parameters"
+
+        web_client.chat_postMessage(
+            channel=channel_id,
+            text=response
+        )
+        print(str(datetime.now().time()) + "> Replied to <Contributor>")
+
 # endregion
 
 # region Slack Connection

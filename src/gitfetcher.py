@@ -31,6 +31,37 @@ def receiveEvent(**payload):
         )
         print(str(datetime.now().time()) + "> Replied to <Mention>")
 
+    elif data['text'].startswith('!help'):
+        print(str(datetime.now().time()) + "> Received command <help>")
+        stripCommand(data, '!info')
+        channel_id = data['channel']
+
+        response = """Commands:
+> help
+list of commands
+> info <repo>
+shows basic repository info
+> contributors <repo>
+shows a list of contributors and their commit numbers, sorted from most to least
+> contributor <repo> <contributorName>
+shows info on a specific contributor in a given repo
+> branches <repo>
+shows top 5 active branches, sorted by commits
+> branch <repo>
+shows basic info about a branch
+> commits <repo> optional<branch>
+shows last 5 commits on chosen branch, defaults to master
+> commit <repo> optional<sha>
+shows details about a commit, defaults to the newest one
+> readme <repo>
+shows a readme"""
+
+        web_client.chat_postMessage(
+            channel=channel_id,
+            text=response
+        )
+        print(str(datetime.now().time()) + "> Replied to <help>")
+
     elif data['text'].startswith('!info'):
         print(str(datetime.now().time()) + "> Received command <info>")
         stripCommand(data, '!info')
